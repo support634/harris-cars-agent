@@ -13,21 +13,14 @@ export default defineConfig({
     ],
 
     server: {
-        host: true,
+        host: '0.0.0.0',
         port: 5173,
-        hmr: {
-            host: '0.0.0.0'
-        }
+        hmr: { host: 'localhost' }
     },
 
     build: {
         outDir: 'public/build',
-        manifest: true,
+        manifest: 'manifest.json',
         emptyOutDir: true,
-        rollupOptions: {
-            output: {
-                manualChunks: undefined
-            }
-        }
     }
 })

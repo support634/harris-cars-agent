@@ -3,14 +3,16 @@ set -e
 
 cd /var/www/html
 
-echo "==> Generating app key..."
-php artisan key:generate --force
+echo "==> Generating app key if not set..."
+if [ -z "$APP_KEY" ]; then
+    php artisan key:generate --force
+fi
 
 echo "==> Running migrations..."
 php artisan migrate --force
 
 echo "==> Linking storage..."
-php artisan storage:link --force
+php artisan storage:link --force 2>/dev/null || true
 
 echo "==> Caching config, routes, views..."
 php artisan config:cache
