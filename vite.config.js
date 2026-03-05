@@ -18,4 +18,8 @@ export default defineConfig({
             host: 'localhost',
         },
     },
+    build: {
+    outDir: 'public/build',
+    manifest: true
+}
 });
