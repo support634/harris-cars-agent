@@ -3,25 +3,47 @@ set -e
 
 cd /var/www/html
 
+echo "==> Removing any stale bootstrap cache..."
+rm -f bootstrap/cache/config.php \
+      bootstrap/cache/routes*.php \
+      bootstrap/cache/services.php \
+      bootstrap/cache/packages.php
+
 echo "==> Building .env from Render environment variables..."
-# Always rebuild .env from process env so Render-injected vars
-# (DB_HOST, APP_KEY, etc.) override anything baked into the image.
-{
-    printenv | grep -E '^(APP_|DB_|CACHE_|SESSION_|REDIS_|MAIL_|LOG_|QUEUE_|BROADCAST_|FILESYSTEM_|AWS_|VITE_)' \
-        | while IFS='=' read -r key rest; do
-            echo "${key}=\"${rest}\""
-          done
+# Always overwrite .env so Render-injected vars win over anything in the image.
+cat > .env <<EOF
+APP_NAME="${APP_NAME:-Harris Cars Service Center}"
+APP_ENV="${APP_ENV:-production}"
+APP_KEY="${APP_KEY:-}"
+APP_DEBUG="${APP_DEBUG:-false}"
+APP_URL="${APP_URL:-http://localhost}"
 
-    # Safe defaults if not provided by Render
-    printenv APP_ENV   >/dev/null 2>&1 || echo 'APP_ENV="production"'
-    printenv APP_DEBUG >/dev/null 2>&1 || echo 'APP_DEBUG="false"'
-} > .env
+LOG_CHANNEL="${LOG_CHANNEL:-stderr}"
+LOG_LEVEL="${LOG_LEVEL:-error}"
 
-echo "==> .env written:"
-grep -E '^(APP_ENV|APP_DEBUG|DB_CONNECTION|DB_HOST|DB_PORT|DB_DATABASE|DB_USERNAME)=' .env || true
+DB_CONNECTION="${DB_CONNECTION:-pgsql}"
+DB_HOST="${DB_HOST:-127.0.0.1}"
+DB_PORT="${DB_PORT:-5432}"
+DB_DATABASE="${DB_DATABASE:-harris_cars}"
+DB_USERNAME="${DB_USERNAME:-harris_cars_user}"
+DB_PASSWORD="${DB_PASSWORD:-}"
 
-echo "==> Clearing config cache..."
-php artisan config:clear 2>/dev/null || true
+CACHE_STORE="${CACHE_STORE:-file}"
+SESSION_DRIVER="${SESSION_DRIVER:-file}"
+SESSION_LIFETIME="${SESSION_LIFETIME:-120}"
+SESSION_SECURE_COOKIE="${SESSION_SECURE_COOKIE:-true}"
+
+QUEUE_CONNECTION="${QUEUE_CONNECTION:-sync}"
+
+MAIL_MAILER="${MAIL_MAILER:-log}"
+MAIL_FROM_ADDRESS="${MAIL_FROM_ADDRESS:-hello@example.com}"
+MAIL_FROM_NAME="${MAIL_FROM_NAME:-Harris Cars}"
+
+FILESYSTEM_DISK="${FILESYSTEM_DISK:-local}"
+EOF
+
+echo "==> DB settings:"
+grep -E '^DB_' .env
 
 echo "==> Generating app key if not set..."
 if [ -z "$APP_KEY" ]; then
