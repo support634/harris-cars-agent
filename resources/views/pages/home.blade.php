@@ -6,20 +6,21 @@
 @section('content')
 
 {{-- ===== HERO SECTION ===== --}}
-<section class="relative bg-brand-dark overflow-hidden min-h-[620px] flex items-center">
-    {{-- Background pattern --}}
-    <div class="absolute inset-0 opacity-10">
-        <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,<svg width=&quot;60&quot; height=&quot;60&quot; viewBox=&quot;0 0 60 60&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;><g fill=&quot;none&quot; fill-rule=&quot;evenodd&quot;><g fill=&quot;%23ffffff&quot; fill-opacity=&quot;0.1&quot;><circle cx=&quot;30&quot; cy=&quot;30&quot; r=&quot;2&quot;/></g></g></svg>');"></div>
-    </div>
+<section class="relative overflow-hidden min-h-[620px] flex items-center" style="background-image: url('{{ asset('images/harris-hero.jpg') }}'); background-size: cover; background-position: center top;">
+    {{-- Dark overlay --}}
+    <div class="absolute inset-0 bg-black/65"></div>
     {{-- Red accent bar --}}
     <div class="absolute left-0 top-0 bottom-0 w-1 bg-brand-primary"></div>
 
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-                <div class="inline-flex items-center bg-brand-primary/20 border border-brand-primary/40 px-4 py-1.5 rounded-full mb-6">
-                    <span class="w-2 h-2 bg-brand-primary rounded-full mr-2 animate-pulse"></span>
-                    <span class="text-brand-primary text-sm font-semibold tracking-wide">ASE Certified Technicians</span>
+                <div class="flex flex-wrap gap-3 mb-6">
+                    <div class="inline-flex items-center bg-brand-primary/20 border border-brand-primary/40 px-4 py-1.5 rounded-full">
+                        <span class="w-2 h-2 bg-brand-primary rounded-full mr-2 animate-pulse"></span>
+                        <span class="text-brand-primary text-sm font-semibold tracking-wide">ASE Certified Technicians</span>
+                    </div>
+                    
                 </div>
 
                 <h1 class="font-display text-5xl sm:text-6xl lg:text-7xl text-white tracking-wider leading-none mb-6">
@@ -29,7 +30,7 @@
                 </h1>
 
                 <p class="text-gray-300 text-lg leading-relaxed mb-8 max-w-lg">
-                    Premium automotive service in Stallings, NC. Honest pricing, certified technicians, and reliable repairs for all domestic and foreign vehicles.
+                    Premium — Servicing the Greater Charlotte Area
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-4">
@@ -53,19 +54,19 @@
             {{-- Stats Cards --}}
             <div class="grid grid-cols-2 gap-4">
                 <div class="bg-gray-800/60 border border-gray-700 p-6 rounded-lg text-center">
-                    <div class="font-display text-4xl text-brand-primary tracking-wider">{{ $stats['years_experience'] }}</div>
+                    <div class="font-display text-4xl text-white tracking-wider">{{ $stats['years_experience'] }}</div>
                     <div class="text-gray-400 text-sm mt-1">Years Experience</div>
                 </div>
                 <div class="bg-gray-800/60 border border-gray-700 p-6 rounded-lg text-center">
-                    <div class="font-display text-4xl text-brand-primary tracking-wider">{{ $stats['vehicles_serviced'] }}</div>
+                    <div class="font-display text-4xl text-white tracking-wider">{{ $stats['vehicles_serviced'] }}</div>
                     <div class="text-gray-400 text-sm mt-1">Vehicles Serviced</div>
                 </div>
                 <div class="bg-gray-800/60 border border-gray-700 p-6 rounded-lg text-center">
-                    <div class="font-display text-4xl text-brand-primary tracking-wider">4.9★</div>
+                    <div class="font-display text-4xl text-white tracking-wider">4.9★</div>
                     <div class="text-gray-400 text-sm mt-1">Average Rating</div>
                 </div>
                 <div class="bg-gray-800/60 border border-gray-700 p-6 rounded-lg text-center">
-                    <div class="font-display text-4xl text-brand-primary tracking-wider">100%</div>
+                    <div class="font-display text-4xl text-white tracking-wider">100%</div>
                     <div class="text-gray-400 text-sm mt-1">Satisfaction Goal</div>
                 </div>
             </div>
@@ -90,6 +91,71 @@
             <span>Tire Services</span>
             <span class="hidden sm:block opacity-50">|</span>
             <span>Suspension</span>
+            <span class="hidden sm:block opacity-50">|</span>
+            <span>Alignment</span>
+            <span class="hidden sm:block opacity-50">|</span>
+            <span class="font-bold">ADAS Calibration</span>
+        </div>
+    </div>
+</section>
+
+{{-- ===== ADAS SPOTLIGHT ===== --}}
+<section class="bg-brand-dark py-14 border-b-4 border-brand-primary">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-10 items-center">
+            <div>
+                <div class="inline-flex items-center bg-brand-primary/20 border border-brand-primary/40 px-3 py-1 rounded-full mb-4">
+                    <span class="w-2 h-2 bg-brand-primary rounded-full mr-2 animate-pulse"></span>
+                    <span class="text-brand-primary text-xs font-bold tracking-widest uppercase">Specialized Service</span>
+                </div>
+                <h2 class="font-display text-4xl sm:text-5xl text-white tracking-wider leading-tight mb-4">
+                    ADAS<br><span class="text-brand-primary">CALIBRATION</span>
+                </h2>
+                <p class="text-gray-300 text-base leading-relaxed mb-6 max-w-lg">
+                    Modern vehicles rely on Advanced Driver Assistance Systems — cameras, radar, and sensors that power lane departure warning, automatic emergency braking, blind spot monitoring, and more. After any windshield replacement, suspension work, wheel alignment, or collision repair, these systems <strong class="text-white">must be recalibrated</strong> to work correctly.
+                </p>
+                <ul class="space-y-2 mb-8">
+                    @foreach([
+                        'Forward collision & emergency braking systems',
+                        'Lane departure & lane-keep assist cameras',
+                        'Blind spot monitoring & cross-traffic alert',
+                        'Adaptive cruise control sensors',
+                        'Parking assist & 360° camera systems',
+                    ] as $item)
+                        <li class="flex items-center text-sm text-gray-300">
+                            <svg class="w-4 h-4 text-brand-primary mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                            </svg>
+                            {{ $item }}
+                        </li>
+                    @endforeach
+                </ul>
+                <a href="{{ route('appointments.create') }}"
+                   class="inline-flex items-center bg-brand-primary hover:bg-[#003370] text-white px-7 py-3.5 font-display text-lg tracking-wider transition-colors">
+                    SCHEDULE ADAS SERVICE
+                    <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
+                </a>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                @foreach([
+                    ['icon' => 'M15 10l4.553-2.069A1 1 0 0121 8.871V15.13a1 1 0 01-1.447.899L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z', 'title' => 'Camera Calibration', 'desc' => 'Static & dynamic calibration for all forward-facing and 360° cameras'],
+                    ['icon' => 'M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.14 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0', 'title' => 'Radar & Sensor Reset', 'desc' => 'Recalibration of radar modules for adaptive cruise and collision systems'],
+                    ['icon' => 'M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z', 'title' => 'OEM-Level Accuracy', 'desc' => 'Factory-spec calibration using professional-grade diagnostic equipment'],
+                    ['icon' => 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z', 'title' => 'Post-Repair Required', 'desc' => 'Needed after windshield, alignment, suspension, or collision repairs'],
+                ] as $card)
+                    <div class="bg-gray-800/60 border border-gray-700 hover:border-brand-primary p-5 rounded-lg transition-colors">
+                        <div class="w-10 h-10 bg-brand-primary/20 rounded-lg flex items-center justify-center mb-3">
+                            <svg class="w-5 h-5 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $card['icon'] }}"/>
+                            </svg>
+                        </div>
+                        <h4 class="text-white font-semibold text-sm mb-1">{{ $card['title'] }}</h4>
+                        <p class="text-gray-400 text-xs leading-relaxed">{{ $card['desc'] }}</p>
+                    </div>
+                @endforeach
+            </div>
         </div>
     </div>
 </section>
@@ -121,9 +187,6 @@
                             <p class="text-gray-500 text-sm leading-relaxed mb-3">
                                 {{ $service->short_description_truncated }}
                             </p>
-                            @if($service->price_range)
-                                <p class="text-brand-primary font-semibold text-sm">{{ $service->price_range }}</p>
-                            @endif
                             <span class="inline-flex items-center text-sm text-brand-primary font-medium mt-3 group-hover:translate-x-1 transition-transform">
                                 Learn More
                                 <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -197,6 +260,7 @@
                     ['icon' => 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', 'title' => 'Warranty Backed', 'desc' => 'Most repairs include a parts and labor warranty for your peace of mind.'],
                     ['icon' => 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z', 'title' => 'Expert Team', 'desc' => 'Decades of combined experience on all domestic and foreign vehicles.'],
                     ['icon' => 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6', 'title' => 'Comfortable Shop', 'desc' => 'Free WiFi, refreshments, and a welcoming waiting area while you wait.'],
+                    ['icon' => 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z', 'title' => 'Family Owned & Operated', 'desc' => 'A local, family-run shop serving the Greater Charlotte Area — we treat every customer like a neighbor.'],
                 ] as $feature)
                     <div class="bg-white border border-gray-200 p-5 rounded-lg flex items-start space-x-4 hover:border-brand-primary transition-colors group">
                         <div class="w-10 h-10 bg-red-50 group-hover:bg-brand-primary rounded-lg flex items-center justify-center flex-shrink-0 transition-colors">
@@ -261,14 +325,6 @@
                     <div class="p-6 pt-14">
                         <h3 class="font-display text-2xl text-brand-dark tracking-wide mb-2">{{ strtoupper($special->title) }}</h3>
                         <p class="text-gray-500 text-sm mb-4">{{ $special->description }}</p>
-                        @if($special->sale_price)
-                            <div class="flex items-baseline gap-2 mb-3">
-                                @if($special->original_price)
-                                    <span class="text-gray-400 line-through text-sm">{{ $special->original_price }}</span>
-                                @endif
-                                <span class="text-brand-primary font-bold text-2xl">{{ $special->sale_price }}</span>
-                            </div>
-                        @endif
                         @if($special->valid_until)
                             <p class="text-xs text-gray-400 mb-4">Expires {{ $special->valid_until->format('M j, Y') }}</p>
                         @endif
@@ -392,33 +448,23 @@
 
 {{-- ===== MAP ===== --}}
 <section class="h-96">
-    @php $mapEmbed = setting('google_maps_embed_url', env('GOOGLE_MAPS_EMBED_URL', '')); @endphp
-    @if($mapEmbed)
-        <iframe
-            src="{{ $mapEmbed }}"
-            width="100%"
-            height="100%"
-            style="border:0;"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            title="Harris Cars Service Center Location">
-        </iframe>
-    @else
-        <div class="w-full h-full bg-gray-200 flex items-center justify-center">
-            <div class="text-center">
-                <svg class="w-12 h-12 text-gray-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                </svg>
-                <p class="text-gray-500 font-medium">2023 Richard Baker Dr, Stallings, NC 28104</p>
-                <a href="https://maps.google.com/?q=2023+Richard+Baker+Dr+Stallings+NC+28104" target="_blank"
-                   class="text-brand-primary text-sm hover:underline mt-1 inline-block">
-                    Get Directions &rarr;
-                </a>
-            </div>
-        </div>
-    @endif
+    @php
+        $mapEmbed = setting('google_maps_embed_url', env('GOOGLE_MAPS_EMBED_URL', ''));
+        $address = setting('address', '2023 Richard Baker Dr, Stallings, NC 28104');
+        if (!$mapEmbed) {
+            $mapEmbed = 'https://maps.google.com/maps?q=' . urlencode($address) . '&output=embed';
+        }
+    @endphp
+    <iframe
+        src="{{ $mapEmbed }}"
+        width="100%"
+        height="100%"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Harris Cars Service Center Location">
+    </iframe>
 </section>
 
 @endsection

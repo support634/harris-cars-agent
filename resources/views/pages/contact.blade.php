@@ -58,7 +58,7 @@
                             <div>
                                 <p class="font-semibold text-brand-dark text-sm">Address</p>
                                 <p class="text-gray-600 text-sm">{{ site_address() }}</p>
-                                <a href="https://maps.google.com/?q=2023+Richard+Baker+Dr+Stallings+NC+28104"
+                                <a href="https://maps.google.com/?q={{ urlencode(site_address()) }}"
                                    target="_blank" class="text-brand-primary text-xs hover:underline">
                                     Get Directions &rarr;
                                 </a>
@@ -74,7 +74,7 @@
                             <div>
                                 <p class="font-semibold text-brand-dark text-sm">Hours</p>
                                 <p class="text-gray-600 text-sm">Mon–Fri: 8:00 AM – 5:00 PM</p>
-                                <p class="text-gray-500 text-sm">Saturday–Sunday: Closed</p>
+                                <p class="text-gray-500 text-sm">Saturday: Secure Drop Off Available — Closed | Sunday: Drop Off Available — Closed</p>
                             </div>
                         </div>
                     </div>
@@ -130,18 +130,14 @@
 
         {{-- Map --}}
         <div class="mt-10 rounded-lg overflow-hidden h-72">
-            @php $mapEmbed = setting('google_maps_embed_url', env('GOOGLE_MAPS_EMBED_URL', '')); @endphp
-            @if($mapEmbed)
-                <iframe src="{{ $mapEmbed }}" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" title="Map"></iframe>
-            @else
-                <div class="w-full h-full bg-gray-200 flex items-center justify-center">
-                    <div class="text-center">
-                        <p class="text-gray-500 font-medium">{{ site_address() }}</p>
-                        <a href="https://maps.google.com/?q=2023+Richard+Baker+Dr+Stallings+NC+28104" target="_blank"
-                           class="text-brand-primary text-sm hover:underline mt-1 inline-block">Open in Google Maps &rarr;</a>
-                    </div>
-                </div>
-            @endif
+            @php
+                $mapEmbed = setting('google_maps_embed_url', env('GOOGLE_MAPS_EMBED_URL', ''));
+                $address = setting('address', '2023 Richard Baker Dr, Stallings, NC 28104');
+                if (!$mapEmbed) {
+                    $mapEmbed = 'https://maps.google.com/maps?q=' . urlencode($address) . '&output=embed';
+                }
+            @endphp
+            <iframe src="{{ $mapEmbed }}" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" title="Map"></iframe>
         </div>
     </div>
 </section>

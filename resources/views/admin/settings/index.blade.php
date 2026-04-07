@@ -47,7 +47,7 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Hero Headline</label>
                     <input type="text" name="settings[hero_headline]"
-                           value="{{ old('settings.hero_headline', setting('hero_headline', 'Your Car Deserves The Best')) }}"
+                           value="{{ old('settings.hero_headline', setting('hero_headline', 'Premium — Servicing the Greater Charlotte Area')) }}"
                            class="w-full border border-gray-300 rounded px-3 py-2.5 text-sm focus:ring-brand-primary focus:border-brand-primary">
                 </div>
                 <div>
@@ -98,15 +98,33 @@
         {{-- Maps --}}
         <div class="bg-white rounded-lg shadow-sm overflow-hidden">
             <div class="px-6 py-4 bg-brand-dark">
-                <h2 class="font-display text-lg text-white tracking-wider">GOOGLE MAPS</h2>
+                <h2 class="font-display text-lg text-white tracking-wider">MAP & LOCATION</h2>
             </div>
-            <div class="p-6">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Google Maps Embed URL</label>
-                <p class="text-xs text-gray-400 mb-2">Get this from Google Maps &rarr; Share &rarr; Embed a map &rarr; copy the src="" URL only.</p>
-                <input type="text" name="settings[google_maps_embed_url]"
-                       value="{{ old('settings.google_maps_embed_url', setting('google_maps_embed_url', env('GOOGLE_MAPS_EMBED_URL'))) }}"
-                       placeholder="https://www.google.com/maps/embed?pb=..."
-                       class="w-full border border-gray-300 rounded px-3 py-2.5 text-sm focus:ring-brand-primary focus:border-brand-primary">
+            <div class="p-6 space-y-5">
+                <div class="bg-green-50 border border-green-200 rounded p-4 text-sm text-green-800">
+                    <strong>Auto Map:</strong> The map on your website automatically uses the <strong>Street Address</strong> field above — no embed URL needed. Update the address and save to move the map pin.
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Custom Google Maps Embed URL <span class="text-gray-400 font-normal">(optional override)</span></label>
+                    <p class="text-xs text-gray-400 mb-2">Leave blank to use auto-map from address above. To use a custom embed: Google Maps &rarr; Share &rarr; Embed a map &rarr; copy only the <code class="bg-gray-100 px-1 rounded">src=""</code> URL.</p>
+                    <input type="text" name="settings[google_maps_embed_url]"
+                           value="{{ old('settings.google_maps_embed_url', setting('google_maps_embed_url', env('GOOGLE_MAPS_EMBED_URL'))) }}"
+                           placeholder="https://www.google.com/maps/embed?pb=... (leave blank for auto)"
+                           class="w-full border border-gray-300 rounded px-3 py-2.5 text-sm focus:ring-brand-primary focus:border-brand-primary">
+                </div>
+
+                @php
+                    $previewAddress = setting('address', '2023 Richard Baker Dr, Stallings, NC 28104');
+                    $previewEmbed = setting('google_maps_embed_url', '') ?: ('https://maps.google.com/maps?q=' . urlencode($previewAddress) . '&output=embed');
+                @endphp
+                <div>
+                    <p class="text-sm font-medium text-gray-700 mb-2">Map Preview</p>
+                    <div class="rounded overflow-hidden h-56 border border-gray-200">
+                        <iframe src="{{ $previewEmbed }}" width="100%" height="100%" style="border:0;" loading="lazy" title="Map Preview"></iframe>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-1">Save settings and refresh this page to see map changes.</p>
+                </div>
             </div>
         </div>
 

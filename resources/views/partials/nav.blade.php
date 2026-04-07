@@ -29,19 +29,19 @@
     </div>
 
     {{-- Main nav --}}
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 lg:px-8">
         <div class="flex justify-between items-center h-16">
 
             {{-- Logo --}}
             <a href="{{ route('home') }}" class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-brand-primary rounded flex items-center justify-center">
-                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <div class="w-16 h-16 bg-brand-primary rounded flex items-center justify-center">
+                    <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/>
                     </svg>
                 </div>
                 <div>
-                    <span class="font-display text-xl text-white tracking-wider leading-none block">HARRIS CARS</span>
-                    <span class="text-xs text-gray-400 leading-none">Service Center</span>
+                    <span class="font-display text-2xl text-white tracking-wider leading-none block">HARRIS CARS</span>
+                    <span class="text-sm text-gray-400 leading-none">Service Center</span>
                 </div>
             </a>
 

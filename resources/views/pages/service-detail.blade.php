@@ -24,11 +24,6 @@
             <p class="text-gray-400 mt-4 max-w-2xl text-lg">{{ $service->short_description }}</p>
         @endif
         <div class="flex flex-wrap gap-4 mt-6">
-            @if($service->price_range)
-                <span class="inline-flex items-center bg-brand-primary/20 border border-brand-primary/40 text-brand-primary px-4 py-2 rounded text-sm font-semibold">
-                    {{ $service->price_range }}
-                </span>
-            @endif
             @if($service->duration)
                 <span class="inline-flex items-center bg-gray-700 text-gray-300 px-4 py-2 rounded text-sm">
                     <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -16,12 +16,13 @@
                     </div>
                 </div>
                 <p class="text-sm text-gray-400 leading-relaxed mb-4">
-                    Premium automotive service in Stallings, NC. ASE certified technicians you can trust for honest, reliable repairs.
+                    Family owned and operated, serving the Greater Charlotte Area. ASE certified technicians you can trust for honest, reliable repairs.
                 </p>
                 {{-- Certifications --}}
-                <div class="flex items-center space-x-3 text-xs text-gray-500">
+                <div class="flex flex-wrap gap-2 text-xs text-gray-500">
                     <span class="border border-gray-600 px-2 py-1 rounded">ASE Certified</span>
                     <span class="border border-gray-600 px-2 py-1 rounded">NAPA AutoCare</span>
+                    
                 </div>
             </div>
 
@@ -98,7 +99,7 @@
                         </svg>
                         <div class="text-gray-400 text-xs">
                             <p>Mon–Fri: 8:00 AM – 5:00 PM</p>
-                            <p>Saturday–Sunday: Closed</p>
+                            <p>Saturday: Secure Drop Off Available — Closed | Sunday: Drop Off Available — Closed</p>
                         </div>
                     </li>
                 </ul>

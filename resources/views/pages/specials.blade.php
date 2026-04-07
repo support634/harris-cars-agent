@@ -33,14 +33,6 @@
                                 <p class="text-gray-500 text-sm mb-4 leading-relaxed">{{ $special->description }}</p>
                             @endif
 
-                            @if($special->sale_price)
-                                <div class="flex items-baseline gap-3 mb-4">
-                                    @if($special->original_price)
-                                        <span class="text-gray-400 line-through text-base">{{ $special->original_price }}</span>
-                                    @endif
-                                    <span class="text-brand-primary font-bold text-3xl">{{ $special->sale_price }}</span>
-                                </div>
-                            @endif
 
                             @if($special->coupon_code)
                                 <div class="bg-gray-50 border border-dashed border-gray-300 rounded p-3 mb-4 text-center">
