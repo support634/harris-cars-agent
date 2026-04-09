@@ -4,6 +4,8 @@
 
 node_modules
 npm-debug.log
+vendor
+public/build
 
 .git
 .gitignore

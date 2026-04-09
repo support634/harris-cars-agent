@@ -1,0 +1,96 @@
+name: Deploy to Droplet
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate production compose
+        run: |
+          cp .env.production.example .env.production
+          docker compose -f docker-compose.prod.yml --env-file .env.production config >/tmp/docker-compose.prod.rendered.yml
+
+      - name: Start SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.DROPLET_SSH_KEY }}
+
+      - name: Trust droplet host key
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H "${{ secrets.DROPLET_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Write production environment file
+        run: |
+          cat > .env.production <<'EOF'
+          APP_NAME=Harris Cars Service Center
+          APP_ENV=production
+          APP_KEY=${{ secrets.APP_KEY }}
+          APP_DEBUG=false
+          APP_URL=http://${{ secrets.DROPLET_HOST }}
+          LOG_CHANNEL=stderr
+          LOG_LEVEL=error
+          DB_CONNECTION=mysql
+          DB_HOST=db
+          DB_PORT=3306
+          DB_DATABASE=${{ secrets.DB_DATABASE }}
+          DB_USERNAME=${{ secrets.DB_USERNAME }}
+          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          MYSQL_DATABASE=${{ secrets.DB_DATABASE }}
+          MYSQL_USER=${{ secrets.DB_USERNAME }}
+          MYSQL_PASSWORD=${{ secrets.DB_PASSWORD }}
+          MYSQL_ROOT_PASSWORD=${{ secrets.DB_ROOT_PASSWORD }}
+          CACHE_STORE=redis
+          QUEUE_CONNECTION=redis
+          SESSION_DRIVER=redis
+          SESSION_LIFETIME=120
+          SESSION_SECURE_COOKIE=false
+          FILESYSTEM_DISK=local
+          REDIS_HOST=redis
+          REDIS_PASSWORD=null
+          REDIS_PORT=6379
+          MAIL_MAILER=${{ secrets.MAIL_MAILER }}
+          MAIL_HOST=${{ secrets.MAIL_HOST }}
+          MAIL_PORT=${{ secrets.MAIL_PORT }}
+          MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}
+          MAIL_ENCRYPTION=${{ secrets.MAIL_ENCRYPTION }}
+          MAIL_FROM_ADDRESS=${{ secrets.MAIL_FROM_ADDRESS }}
+          MAIL_FROM_NAME=${{ secrets.MAIL_FROM_NAME }}
+          MAIL_TO_ADDRESS=${{ secrets.MAIL_TO_ADDRESS }}
+          GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}
+          GOOGLE_MAPS_EMBED_URL=${{ secrets.GOOGLE_MAPS_EMBED_URL }}
+          ZOHO_WEBHOOK_SECRET=${{ secrets.ZOHO_WEBHOOK_SECRET }}
+          ZOHO_CONTACT_FORM_EMBED=${{ secrets.ZOHO_CONTACT_FORM_EMBED }}
+          ZOHO_BOOKING_FORM_EMBED=${{ secrets.ZOHO_BOOKING_FORM_EMBED }}
+          ZOHO_REVIEW_FORM_EMBED=${{ secrets.ZOHO_REVIEW_FORM_EMBED }}
+          ZOHO_QUOTE_FORM_EMBED=${{ secrets.ZOHO_QUOTE_FORM_EMBED }}
+          ADMIN_NAME=${{ secrets.ADMIN_NAME }}
+          ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}
+          ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}
+          EOF
+
+      - name: Upload environment file
+        run: |
+          scp .env.production "${{ secrets.DROPLET_USER }}@${{ secrets.DROPLET_HOST }}:/opt/harris-cars-agent/.env.production"
+
+      - name: Deploy over SSH
+        run: |
+          ssh "${{ secrets.DROPLET_USER }}@${{ secrets.DROPLET_HOST }}" "APP_DIR=/opt/harris-cars-agent BRANCH=main bash /opt/harris-cars-agent/scripts/server/deploy.sh"
+
+      - name: Verify deployment
+        run: |
+          curl --fail --retry 10 --retry-delay 5 "http://${{ secrets.DROPLET_HOST }}/"

@@ -1,0 +1,53 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: harris_app_prod
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    ports:
+      - "80:80"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    volumes:
+      - app_storage:/var/www/html/storage
+
+  db:
+    image: mysql:8.0
+    container_name: harris_db_prod
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-harris_cars}
+      MYSQL_USER: ${MYSQL_USER:-harris_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-change-me}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-change-root-password}
+    command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p${MYSQL_ROOT_PASSWORD:-change-root-password}"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+  redis:
+    image: redis:7-alpine
+    container_name: harris_redis_prod
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+
+volumes:
+  app_storage:
+  db_data:
+  redis_data:
