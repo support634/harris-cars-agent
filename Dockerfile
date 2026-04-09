@@ -63,6 +63,10 @@ COPY resources ./resources
 COPY public ./public
 COPY vite.config.js postcss.config.js tailwind.config.js ./
 
+# Allow app name to be passed at build time so Vite embeds it in the bundle
+ARG APP_NAME="Harris Cars Service Center"
+ENV VITE_APP_NAME=$APP_NAME
+
 RUN npm run build
 
 FROM php-base AS runtime
