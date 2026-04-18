@@ -36,8 +36,7 @@
             <a href="{{ route('home') }}" class="site-logo-lockup site-logo-lockup--nav flex items-center">
                 <img src="{{ asset('images/logo/harris-cars-logo.png') }}"
                      alt="Harris Cars Inc"
-                     width="711" height="492"
-                     class="site-logo">
+                     class="site-logo h-12 md:h-14 lg:h-[3.75rem] w-auto max-w-full block">
             </a>
 
             {{-- Desktop Nav --}}

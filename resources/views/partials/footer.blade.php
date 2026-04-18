@@ -7,8 +7,7 @@
                 <div class="site-logo-lockup site-logo-lockup--footer mb-4">
                     <img src="{{ asset('images/logo/harris-cars-logo.png') }}"
                          alt="Harris Cars Inc"
-                         width="711" height="492"
-                         class="site-logo">
+                         class="site-logo h-14 w-auto max-w-full block">
                 </div>
                 <p class="text-sm text-gray-400 leading-relaxed mb-4">
                     Family owned and operated, serving the Greater Charlotte Area. ASE certified technicians you can trust for honest, reliable repairs.
