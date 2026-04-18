@@ -59,6 +59,35 @@
     .badge-red     { @apply bg-red-100 text-red-800; }
     .badge-brand-blue  { @apply bg-brand-blue-light text-brand-blue; }
     .badge-gray    { @apply bg-gray-100 text-gray-700; }
+
+    /* Shared logo sizing */
+    .site-logo-lockup {
+        @apply block shrink-0 max-w-full;
+    }
+
+    .site-logo {
+        display: block;
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        object-fit: contain;
+    }
+
+    .site-logo-lockup--nav .site-logo {
+        height: 3rem;
+    }
+
+    .site-logo-lockup--footer .site-logo {
+        height: 3.5rem;
+    }
+
+    .site-logo-lockup--login {
+        @apply mx-auto;
+    }
+
+    .site-logo-lockup--login .site-logo {
+        height: 4.5rem;
+    }
 }
 
 @layer utilities {
@@ -89,5 +118,21 @@
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
         overflow: hidden;
+    }
+}
+
+@media (min-width: 768px) {
+    @layer components {
+        .site-logo-lockup--nav .site-logo {
+            height: 3.5rem;
+        }
+    }
+}
+
+@media (min-width: 1024px) {
+    @layer components {
+        .site-logo-lockup--nav .site-logo {
+            height: 3.75rem;
+        }
     }
 }

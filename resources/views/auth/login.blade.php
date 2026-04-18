@@ -21,10 +21,12 @@
     <div class="w-full max-w-md">
         {{-- Logo --}}
         <div class="text-center mb-8">
-            <img src="{{ asset('images/logo/harris-cars-logo.png') }}"
-                 alt="Harris Cars Inc"
-                 width="213" height="147"
-                 class="h-20 w-auto mx-auto mb-3">
+            <div class="site-logo-lockup site-logo-lockup--login mb-3">
+                <img src="{{ asset('images/logo/harris-cars-logo.png') }}"
+                     alt="Harris Cars Inc"
+                     width="711" height="492"
+                     class="site-logo">
+            </div>
             <p class="text-gray-400 text-sm">Admin Panel</p>
         </div>
 

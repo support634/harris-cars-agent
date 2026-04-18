@@ -33,11 +33,11 @@
         <div class="flex justify-between items-center h-16">
 
             {{-- Logo --}}
-            <a href="{{ route('home') }}" class="flex items-center">
+            <a href="{{ route('home') }}" class="site-logo-lockup site-logo-lockup--nav flex items-center">
                 <img src="{{ asset('images/logo/harris-cars-logo.png') }}"
                      alt="Harris Cars Inc"
-                     width="213" height="147"
-                     class="h-12 md:h-14 w-auto max-w-[220px]">
+                     width="711" height="492"
+                     class="site-logo">
             </a>
 
             {{-- Desktop Nav --}}
