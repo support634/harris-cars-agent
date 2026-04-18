@@ -14,6 +14,10 @@ return [
 
     'scopes' => env('CLERK_OAUTH_SCOPES', 'openid profile email'),
 
+    // Backend API root used for server-to-server calls (session revocation, user lookups, etc.).
+    // CLERK_SECRET_KEY is required to authenticate against this.
+    'api_base' => env('CLERK_API_BASE', 'https://api.clerk.com'),
+
     'admin_allowed_emails' => array_values(array_filter(array_map(
         fn ($e) => strtolower(trim($e)),
         explode(',', (string) env('ADMIN_ALLOWED_EMAILS', ''))

@@ -4,7 +4,9 @@ namespace App\Services\Clerk;
 
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use RuntimeException;
+use Throwable;
 
 class ClerkOAuthService
 {
@@ -84,5 +86,68 @@ class ClerkOAuthService
         }
 
         return $body;
+    }
+
+    /**
+     * Revoke every active Clerk session for the given user (Backend API).
+     * Best-effort: never throws — failures are logged as warnings so a
+     * downed Clerk API doesn't block the user from logging out locally.
+     * Requires CLERK_SECRET_KEY.
+     */
+    public function revokeUserSessions(string $clerkUserId): int
+    {
+        $secret = (string) config('clerk.secret_key');
+        if ($secret === '' || $clerkUserId === '') {
+            return 0;
+        }
+
+        $base = rtrim((string) config('clerk.api_base'), '/');
+        $revoked = 0;
+
+        try {
+            $list = Http::withToken($secret)
+                ->acceptJson()
+                ->timeout(5)
+                ->get($base.'/v1/sessions', [
+                    'user_id' => $clerkUserId,
+                    'status'  => 'active',
+                ]);
+
+            if (! $list->successful()) {
+                Log::warning('Clerk session list failed', [
+                    'status' => $list->status(),
+                    'body'   => $list->body(),
+                ]);
+                return 0;
+            }
+
+            foreach ((array) $list->json() as $session) {
+                $id = is_array($session) ? ($session['id'] ?? null) : null;
+                if (! is_string($id) || $id === '') {
+                    continue;
+                }
+
+                $resp = Http::withToken($secret)
+                    ->acceptJson()
+                    ->timeout(5)
+                    ->post($base.'/v1/sessions/'.$id.'/revoke');
+
+                if ($resp->successful()) {
+                    $revoked++;
+                } else {
+                    Log::warning('Clerk session revoke failed', [
+                        'session' => $id,
+                        'status'  => $resp->status(),
+                        'body'    => $resp->body(),
+                    ]);
+                }
+            }
+        } catch (Throwable $e) {
+            Log::warning('Clerk session revocation threw', [
+                'error' => $e->getMessage(),
+            ]);
+        }
+
+        return $revoked;
     }
 }

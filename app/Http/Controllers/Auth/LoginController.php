@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Services\Clerk\ClerkOAuthService;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -51,11 +52,21 @@ class LoginController extends Controller
             ->onlyInput('email');
     }
 
-    public function logout(Request $request): RedirectResponse
+    public function logout(Request $request, ClerkOAuthService $clerk): RedirectResponse
     {
+        // Capture the Clerk subject BEFORE we forget the local user, so we can
+        // also revoke their Clerk-side sessions. Otherwise the IdP cookie keeps
+        // them signed in and the next /admin/login click skips the password.
+        $clerkUserId = optional(Auth::user())->clerk_user_id;
+
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
+        if (clerk_enabled() && is_string($clerkUserId) && $clerkUserId !== '') {
+            // Best-effort: never let a Clerk API hiccup block local logout.
+            $clerk->revokeUserSessions($clerkUserId);
+        }
 
         return redirect()->route('login')->with('success', 'You have been logged out.');
     }
