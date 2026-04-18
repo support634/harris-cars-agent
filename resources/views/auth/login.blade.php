@@ -6,19 +6,26 @@
     <title>Admin Login — Harris Cars Service Center</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+
+    {{-- Favicon & PWA --}}
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/icons/favicon-32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/icons/favicon-16.png') }}">
+    <link rel="shortcut icon" href="{{ asset('assets/icons/favicon.ico') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/icons/apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
+    <meta name="theme-color" content="#0F172A">
+
     @vite(['resources/js/app.js'])
 </head>
 <body class="font-body bg-brand-dark min-h-screen flex items-center justify-center p-4">
     <div class="w-full max-w-md">
         {{-- Logo --}}
         <div class="text-center mb-8">
-            <div class="w-16 h-16 bg-brand-primary rounded-lg flex items-center justify-center mx-auto mb-4">
-                <svg class="w-9 h-9 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99z"/>
-                </svg>
-            </div>
-            <h1 class="font-display text-3xl text-white tracking-wider">HARRIS CARS</h1>
-            <p class="text-gray-400 text-sm mt-1">Admin Panel</p>
+            <img src="{{ asset('images/logo/harris-cars-logo.png') }}"
+                 alt="Harris Cars Inc"
+                 width="213" height="147"
+                 class="h-20 w-auto mx-auto mb-3">
+            <p class="text-gray-400 text-sm">Admin Panel</p>
         </div>
 
         {{-- Card --}}
