@@ -4,7 +4,7 @@
 
 - App ID: `04f5ff22-8cbb-48c5-9042-69e5c2a1b909`
 - App name: `harris-cars-service-center`
-- Live URL: `https://harris-cars-nkz9e.ondigitalocean.app`
+- Live URL: `https://harris-cars-xt6si.ondigitalocean.app` (matches `default_ingress`; `APP_URL` in the spec is also set to this value)
 - Region: `nyc`
 - Tier: `professional`
 - Service component: `web`
@@ -137,7 +137,7 @@ In **Clerk Dashboard → Configure → OAuth Applications → your app → Redir
 
 ```
 http://localhost:8080/admin/oauth/callback
-https://harris-cars-nkz9e.ondigitalocean.app/admin/oauth/callback
+https://harris-cars-xt6si.ondigitalocean.app/admin/oauth/callback
 ```
 
 Also add any custom domain you later attach (e.g. `https://harriscars.com/admin/oauth/callback`).
@@ -194,12 +194,14 @@ The Clerk migration uses `$table->string('clerk_user_id')->nullable()->unique()-
 
 After pushing to `main` and waiting for the DO build:
 
-1. `curl -s https://harris-cars-nkz9e.ondigitalocean.app/admin/login | grep -E 'SIGN IN WITH CLERK|name="password"'` — should show **only** the Clerk button, no password field, when CLERK_* is set on DO. If you see the password field, the env vars didn't make it into the cached config (re-check `start.sh` and the spec).
-2. `curl -s -o /dev/null -D - https://harris-cars-nkz9e.ondigitalocean.app/admin/oauth/start | grep -i location` — should 302 to `https://<instance>.clerk.accounts.dev/oauth/authorize?…&redirect_uri=https%3A%2F%2Fharris-cars-nkz9e.ondigitalocean.app%2Fadmin%2Foauth%2Fcallback&…`. If the `redirect_uri` is `http://…` instead of `https://…`, `TrustProxies` is misconfigured.
+1. `curl -s https://harris-cars-xt6si.ondigitalocean.app/admin/login | grep -E 'SIGN IN WITH CLERK|name="password"'` — should show **only** the Clerk button, no password field, when CLERK_* is set on DO. If you see the password field, the env vars didn't make it into the cached config (re-check `start.sh` and the spec).
+2. `curl -s -o /dev/null -D - https://harris-cars-xt6si.ondigitalocean.app/admin/oauth/start | grep -i location` — should 302 to `https://<instance>.clerk.accounts.dev/oauth/authorize?…&redirect_uri=https%3A%2F%2Fharris-cars-xt6si.ondigitalocean.app%2Fadmin%2Foauth%2Fcallback&…`. If the `redirect_uri` is `http://…` instead of `https://…`, `TrustProxies` is misconfigured.
 3. In a browser, click `SIGN IN WITH CLERK`, sign in with an email in `ADMIN_ALLOWED_EMAILS`, confirm you land on `/admin` with the admin nav.
 4. Sign in with an email **not** in the allow-list, confirm you get a 403 with "Your account is not authorized to access the admin panel."
-5. `curl -s -o /dev/null -w "%{http_code}\n" -X POST -H "X-XSRF-TOKEN: <fresh>" --cookie <jar> https://harris-cars-nkz9e.ondigitalocean.app/admin/login` with valid CSRF should return **403** (the controller-level Clerk-only guard).
+5. `curl -s -o /dev/null -w "%{http_code}\n" -X POST -H "X-XSRF-TOKEN: <fresh>" --cookie <jar> https://harris-cars-xt6si.ondigitalocean.app/admin/login` with valid CSRF should return **403** (the controller-level Clerk-only guard).
 6. Tampered state on callback (`/admin/oauth/callback?code=x&state=tampered`) should return **403**.
+
+> **Tip:** `route('clerk.callback')` builds the URL from the **request's** `X-Forwarded-Host` (because we trust proxies), not from `APP_URL`. So even if `APP_URL` ever drifts from the actual ingress, the OAuth flow will still produce a correct redirect URI as long as users hit the real ingress hostname. Keep `APP_URL` matching the ingress anyway — it's used for `route()` calls outside of an HTTP request (artisan, queues, mailables).
 
 ## Useful Commands
 
