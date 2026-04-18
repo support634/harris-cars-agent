@@ -59,6 +59,19 @@ ZOHO_QUOTE_FORM_EMBED="${ZOHO_QUOTE_FORM_EMBED:-}"
 ADMIN_NAME="${ADMIN_NAME:-Harris Admin}"
 ADMIN_EMAIL="${ADMIN_EMAIL:-admin@harriscars.com}"
 ADMIN_PASSWORD="${ADMIN_PASSWORD:-password}"
+
+# --- Clerk OAuth (admin login) ---
+# When all five required CLERK_OAUTH_* values are set, /admin/login uses Clerk.
+# When any are unset, the local password admin login is used (env-gated fallback).
+CLERK_PUBLISHABLE_KEY="${CLERK_PUBLISHABLE_KEY:-}"
+CLERK_SECRET_KEY="${CLERK_SECRET_KEY:-}"
+CLERK_OAUTH_CLIENT_ID="${CLERK_OAUTH_CLIENT_ID:-}"
+CLERK_OAUTH_CLIENT_SECRET="${CLERK_OAUTH_CLIENT_SECRET:-}"
+CLERK_OAUTH_AUTHORIZE_URL="${CLERK_OAUTH_AUTHORIZE_URL:-}"
+CLERK_OAUTH_TOKEN_URL="${CLERK_OAUTH_TOKEN_URL:-}"
+CLERK_OAUTH_USERINFO_URL="${CLERK_OAUTH_USERINFO_URL:-}"
+CLERK_OAUTH_SCOPES="${CLERK_OAUTH_SCOPES:-openid profile email}"
+ADMIN_ALLOWED_EMAILS="${ADMIN_ALLOWED_EMAILS:-}"
 EOF
 
 echo "==> DB settings:"

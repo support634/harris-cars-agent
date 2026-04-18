@@ -24,8 +24,7 @@
             <div class="site-logo-lockup site-logo-lockup--login mb-3">
                 <img src="{{ asset('images/logo/harris-cars-logo.png') }}"
                      alt="Harris Cars Inc"
-                     width="711" height="492"
-                     class="site-logo">
+                     class="site-logo h-[4.5rem] w-auto max-w-full block mx-auto">
             </div>
             <p class="text-gray-400 text-sm">Admin Panel</p>
         </div>
@@ -40,34 +39,49 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('login.submit') }}">
-                @csrf
-                <div class="space-y-5">
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                        <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus
-                               class="w-full border rounded px-4 py-3 text-sm focus:ring-brand-primary focus:border-brand-primary transition-colors @error('email') border-red-500 @enderror">
-                        @error('email')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
-                    </div>
-
-                    <div>
-                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                        <input type="password" id="password" name="password" required
-                               class="w-full border rounded px-4 py-3 text-sm focus:ring-brand-primary focus:border-brand-primary transition-colors @error('password') border-red-500 @enderror">
-                        @error('password')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
-                    </div>
-
-                    <div class="flex items-center">
-                        <input type="checkbox" id="remember" name="remember" class="rounded border-gray-300 text-brand-primary focus:ring-brand-primary">
-                        <label for="remember" class="ml-2 text-sm text-gray-600">Remember me</label>
-                    </div>
-
-                    <button type="submit"
-                            class="w-full bg-brand-primary hover:bg-[#003370] text-white py-3 font-display text-xl tracking-wider transition-colors">
-                        SIGN IN
-                    </button>
+            @error('email')
+                <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-5 text-sm">
+                    {{ $message }}
                 </div>
-            </form>
+            @enderror
+
+            @if(clerk_enabled())
+                <p class="text-center text-sm text-gray-600 mb-6">
+                    Admin sign-in is managed by Clerk. Click below to continue.
+                </p>
+                <a href="{{ route('clerk.start') }}"
+                   class="block w-full text-center bg-brand-primary hover:bg-[#003370] text-white py-3 font-display text-xl tracking-wider transition-colors">
+                    SIGN IN WITH CLERK
+                </a>
+            @else
+                <form method="POST" action="{{ route('login.submit') }}">
+                    @csrf
+                    <div class="space-y-5">
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus
+                                   class="w-full border rounded px-4 py-3 text-sm focus:ring-brand-primary focus:border-brand-primary transition-colors @error('email') border-red-500 @enderror">
+                        </div>
+
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                            <input type="password" id="password" name="password" required
+                                   class="w-full border rounded px-4 py-3 text-sm focus:ring-brand-primary focus:border-brand-primary transition-colors @error('password') border-red-500 @enderror">
+                            @error('password')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                        </div>
+
+                        <div class="flex items-center">
+                            <input type="checkbox" id="remember" name="remember" class="rounded border-gray-300 text-brand-primary focus:ring-brand-primary">
+                            <label for="remember" class="ml-2 text-sm text-gray-600">Remember me</label>
+                        </div>
+
+                        <button type="submit"
+                                class="w-full bg-brand-primary hover:bg-[#003370] text-white py-3 font-display text-xl tracking-wider transition-colors">
+                            SIGN IN
+                        </button>
+                    </div>
+                </form>
+            @endif
         </div>
 
         <p class="text-center text-gray-500 text-xs mt-6">

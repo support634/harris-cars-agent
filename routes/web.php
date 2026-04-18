@@ -9,6 +9,7 @@ use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ZohoWebhookController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\ClerkLoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,6 +60,10 @@ Route::post('/zoho/webhook', [ZohoWebhookController::class, 'handle'])->name('zo
 Route::get('/admin/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/admin/login', [LoginController::class, 'login'])->name('login.submit');
 Route::post('/admin/logout', [LoginController::class, 'logout'])->name('logout');
+
+// Clerk OAuth Authorization Code Flow (admin login).
+Route::get('/admin/oauth/start', [ClerkLoginController::class, 'start'])->name('clerk.start');
+Route::get('/admin/oauth/callback', [ClerkLoginController::class, 'callback'])->name('clerk.callback');
 
 /*
 |--------------------------------------------------------------------------

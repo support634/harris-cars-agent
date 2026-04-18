@@ -21,6 +21,12 @@ class LoginController extends Controller
 
     public function login(Request $request): RedirectResponse
     {
+        // When Clerk is configured, the local password form is disabled.
+        // Defense-in-depth: reject any password POST even if a stale form is replayed.
+        if (clerk_enabled()) {
+            abort(403, 'Password login is disabled. Sign in with Clerk.');
+        }
+
         $credentials = $request->validate([
             'email'    => ['required', 'email'],
             'password' => ['required'],

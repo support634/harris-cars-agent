@@ -57,6 +57,21 @@ if (! function_exists('site_address')) {
     }
 }
 
+if (! function_exists('clerk_enabled')) {
+    /**
+     * Whether Clerk OAuth admin login is configured and enabled.
+     * Returns true only when all required CLERK_* config values are present.
+     */
+    function clerk_enabled(): bool
+    {
+        return filled(config('clerk.client_id'))
+            && filled(config('clerk.client_secret'))
+            && filled(config('clerk.authorize_url'))
+            && filled(config('clerk.token_url'))
+            && filled(config('clerk.userinfo_url'));
+    }
+}
+
 if (! function_exists('format_phone')) {
     /**
      * Format a phone number for tel: href.
