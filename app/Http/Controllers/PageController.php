@@ -54,4 +54,14 @@ class PageController extends Controller
         $categories = ServiceCategory::active()->ordered()->with('activeServices')->get();
         return view('pages.quote', compact('categories'));
     }
+
+    public function privacyPolicy(): View
+    {
+        return view('pages.privacy-policy');
+    }
+
+    public function termsAndConditions(): View
+    {
+        return view('pages.terms-and-conditions');
+    }
 }

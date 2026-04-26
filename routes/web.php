@@ -45,6 +45,10 @@ Route::get('/appointment/confirmation', [AppointmentController::class, 'confirma
 // Quote
 Route::get('/quote', [PageController::class, 'quote'])->name('quote');
 
+// Legal
+Route::get('/privacy-policy', [PageController::class, 'privacyPolicy'])->name('privacy-policy');
+Route::get('/terms-and-conditions', [PageController::class, 'termsAndConditions'])->name('terms-and-conditions');
+
 /*
 |--------------------------------------------------------------------------
 | Zoho Webhook (CSRF exempt — added to VerifyCsrfToken $except)

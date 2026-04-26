@@ -33,6 +33,8 @@
                     <li><a href="{{ route('gallery') }}" class="hover:text-brand-primary transition-colors">Gallery</a></li>
                     <li><a href="{{ route('about') }}" class="hover:text-brand-primary transition-colors">About Us</a></li>
                     <li><a href="{{ route('contact') }}" class="hover:text-brand-primary transition-colors">Contact</a></li>
+                    <li><a href="{{ route('privacy-policy') }}" class="hover:text-brand-primary transition-colors">Privacy Policy</a></li>
+                    <li><a href="{{ route('terms-and-conditions') }}" class="hover:text-brand-primary transition-colors">Terms &amp; Conditions</a></li>
                 </ul>
             </div>
 
@@ -127,8 +129,8 @@
             <div class="flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0 text-xs text-gray-500">
                 <p>&copy; {{ date('Y') }} {{ site_name() }}. All rights reserved.</p>
                 <div class="flex items-center space-x-4">
-                    <a href="{{ route('contact') }}" class="hover:text-gray-300 transition-colors">Privacy Policy</a>
-                    <a href="{{ route('contact') }}" class="hover:text-gray-300 transition-colors">Terms of Service</a>
+                    <a href="{{ route('privacy-policy') }}" class="hover:text-gray-300 transition-colors">Privacy Policy</a>
+                    <a href="{{ route('terms-and-conditions') }}" class="hover:text-gray-300 transition-colors">Terms &amp; Conditions</a>
                     <a href="{{ route('login') }}" class="hover:text-gray-300 transition-colors">Admin</a>
                 </div>
             </div>
